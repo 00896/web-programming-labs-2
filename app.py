@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, redirect
 app = Flask(__name__)
 
 @app.route("/web")
@@ -26,6 +26,10 @@ def author():
                <a href="/web">web</a>
            </body>
         </html>"""
+
+@app.route("/info")
+def info():
+    return redirect("/author")
 
 @app.route("/lab1/oak")
 def oak():
