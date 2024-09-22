@@ -36,12 +36,12 @@ def oak():
     path = url_for ("static", filename="cat.jpg")
     return '''
 <doctype html>
-    <html>
-        <body>
-            <h1>Дуб (почти дуб)</h1>
-            <img src="'''+ path + '''">
-        </body>
-    </html>'''
+<html>
+    <body>
+        <h1>Дуб (почти дуб)</h1>
+        <img src="'''+ path + '''">
+    </body>
+</html>'''
 
 count = 0
 @app.route("/lab1/counter")
@@ -50,8 +50,20 @@ def counter():
     count += 1
     return '''
 <doctype html>
-    <html>
-        <body>
-            Сколько раз вы сюда заходили: ''' + str(count) + '''
-        </body>
-    </html>'''
+<html>
+    <body>
+        Сколько раз вы сюда заходили: ''' + str(count) + '''
+    </body>
+</html>'''
+
+@app.route("/lab1/created")
+def created():
+    return '''
+<doctype html>
+<html>
+    <body>
+           <h1>Создано успешно</h1>
+           <div><i>что-то создано...</i></div> 
+    </body>
+</html>
+''', 201
