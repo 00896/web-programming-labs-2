@@ -1,0 +1,21 @@
+body {
+    background-color: #e1ffe2;
+    color: #070d07;
+    margin: 15px;
+    font-size: 20px;
+}
+
+div{ 
+    background-color: #cbffce;
+}
+
+h1{
+    text-align: center;
+}
+
+img{
+    width: 540px;
+    height: 380px;
+    position: absolute; 
+    left: 30%;
+}
