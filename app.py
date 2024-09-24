@@ -261,3 +261,24 @@ def teapot():
     </body>
 </html>
 ''', 418
+
+# Обработчик, который будет вызывать ошибку на сервере и перехватчик
+@app.route("/error")
+def trigger_error():
+    result = 8 / 0
+    return f"Результат: {result}"
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Internal Server Error</title>
+    </head>
+    <body>
+        <h1>500 Internal Server Error</h1>
+        <p>Любая внутренняя ошибка сервера, которая не входит в рамки остальных ошибок класса</p>
+    </body>
+</html>
+''', 500
