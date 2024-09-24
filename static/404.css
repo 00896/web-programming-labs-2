@@ -1,0 +1,15 @@
+body {
+    background-color: #ffffff;
+    color: #242424;
+    margin: 20px;
+    font-size: 25px;
+    text-align: center;
+}
+
+.id{
+    background-color: #c1c1c1;
+}
+img{
+    width: 700px;
+    height: 500px;
+}

@@ -210,6 +210,25 @@ def forbidden():
 </html>
 ''', 403
 
+@app.route('/404')
+def still_not_found():
+    css = url_for("static", filename="404.css")
+    picture = url_for("static", filename="404.jpg")
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="''' + css + '''">
+        <title>Not Found</title>
+    </head>
+    <body>
+        <h1 class='id'>404 Not Found</h1>
+        <p>Ошибка в написании адреса Web-страницы</p>
+        <img src="''' + picture + '''">
+    </body>
+</html>
+''', 404
+
 @app.route('/405')
 def not_found():
     return '''
