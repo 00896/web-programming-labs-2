@@ -143,3 +143,102 @@ def lab1():
     </body>
 </html>
 '''
+
+@app.route('/400')
+def bad_request():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Bad Request</title>
+    </head>
+    <body>
+        <h1>400 Bad Request</h1>
+        <p>Сервер обнаружил в запросе клиента синтаксическую ошибку</p>
+    </body>
+</html>
+''', 400
+
+@app.route('/401')
+def unauthorized():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Unauthorized</title>
+    </head>
+    <body>
+        <h1>401 Unauthorized</h1>
+        <p>Для доступа к запрашиваемому ресурсу требуется аутентификация</p>
+    </body>
+</html>
+''', 401
+
+@app.route('/402')
+def payment_required():
+    return '''
+<!doctype html>
+    <html>
+    <head>
+        <title>Payment Required</title>
+    </head>
+    <body>
+        <h1>402 Payment Required</h1>
+        <p>
+            Этот код предусмотрен для платных пользовательских сервисов, и некорректно выдавать его 
+            хостинг-провайдерам, если хозяин сайта не оплатил их услуги.
+        </p>
+    </body>
+</html>
+''', 402
+
+@app.route('/403')
+def forbidden():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Forbidden</title>
+    </head>
+    <body>
+        <h1>403 Forbidden</h1>
+        <p>
+            Сервер понял запрос, но он отказывается его выполнять из-за ограничений в доступе 
+            для клиента к указанному ресурсу
+        </p>
+    </body>
+</html>
+''', 403
+
+@app.route('/405')
+def not_found():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Method Not Allowed</title>
+    </head>
+    <body>
+        <h1>405 Method Not Allowed</h1>
+        <p>Указанный клиентом метод нельзя применить к текущему ресурсу</p>
+    </body>
+</html>
+''', 405
+
+@app.route('/418')
+def teapot():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>I'm a teapot</title>
+    </head>
+    <body>
+        <h1>418 I'm a teapot</h1>
+        <p>
+            Сервер не может приготовить кофе, потому что он чайник. Эта ошибка ссылается на Hyper Text Coffee Pot Control 
+            Protocol (гипертекстовый протокол кофейников) который был первоапрельской шуткой в 1998 году
+        </p>
+    </body>
+</html>
+''', 418
