@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect
+from flask import Flask, url_for, redirect, make_response
 app = Flask(__name__)
 
 @app.errorhandler(404)
@@ -300,3 +300,50 @@ def internal_server_error(error):
     </body>
 </html>
 ''', 500
+
+@app.route('/kvezal')
+def kvezal():
+    path = url_for("static", filename="kvezal.jpg")
+    css_path = url_for("static", filename="kvezal.css")
+    content = '''
+    <!doctype html>
+    <html>
+        <head>
+            <title>Квезаль</title>
+            <link rel="stylesheet" href="''' + css_path + '''">
+        </head>
+        <body>
+            <header>
+                <h1>Аватар ацтекского Кетцалькоатля</h1>
+            </header>
+            <div>
+                <div>
+                    &nbsp; Это квезаль. Чудная птица из Центральной Америки. У неё невероятная внешность, яркая расцветка, 
+                    а в полёте кудесница действительно напоминает что-то мифическое и волшебное. Квезаль подобен пернатому змею, 
+                    грациозно рассекающему владения смертных.
+                </div>
+                <div>
+                    <p>
+                        &nbsp; Особенно забавно то, что ареал этих птиц полностью совпадает с бывшими владениями ацтекской империи. 
+                        Считается, что носить длинные хвостовые перья квезалей было большой честью в обществе индейцев.
+                        Птички исключительно мирные и кушают ягодки, иногда разбавляя насекомыми. Да и в целом, птица особо ничем 
+                        не выделяется в образе жизни.
+                    </p>
+                    <p>
+                        &nbsp; Но вид быстро вымирает. Браконьерство и вырубка лесов дают о себе знать. Ни одна программа по разведению этих 
+                        птиц не увенчалась успехом: свободолюбивые боги не проживают и пары месяцев в неволе.
+                    </p>
+                </div>
+            </div>
+            <br>
+            <img src="''' + path + '''" >
+        </body>
+    </html>
+    '''
+    # Создание ответа с заголовками
+    response = make_response(content)
+    response.headers['Content-Language'] = 'ru'
+    response.headers['Kvezal'] = 'Bird' 
+    response.headers['Page'] = 'Green' 
+
+    return response
