@@ -136,6 +136,24 @@ def lab1():
         <a href="/">На главную</a>
     </div>
 
+    <h2>Список роутов:</h2>
+    <ol>
+        <li><a href="/lab1">Лабораторная 1</a></li>
+        <li><a href="/lab1/web">Web-сервер на Flask</a></li>
+        <li><a href="/lab1/author">Страница автора</a></li>
+        <li><a href="/lab1/oak">Страница с дубом (почти)</a></li>
+        <li><a href="/lab1/counter"> Счётчик посещений</a></li>
+        <li><a href="/lab1/reset_counter">Сброс счётчика</a></li>
+        <li><a href="/400">Код 400 </a></li>
+        <li><a href="/401">Код 401 </a></li>
+        <li><a href="/402">Код 402 </a></li>
+        <li><a href="/403">Код 403 </a></li>
+        <li><a href="/404">Код 404 </a></li>
+        <li><a href="/405">Код 405 </a></li>
+        <li><a href="/error">Код 500 </a></li>
+        <li><a href="/kvezal">Квезаль </a></li>
+    </ol>
+
     <footer>
         <p>Кобзева Лидия Викторовна</p>
         <p>ФБИ-21, 3 курс, 2024 год</p>
