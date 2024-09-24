@@ -81,8 +81,32 @@ def created():
 <doctype html>
 <html>
     <body>
-           <h1>Создано успешно</h1>
-           <div><i>что-то создано...</i></div> 
+        <h1>Создано успешно</h1>
+        <div><i>что-то создано...</i></div> 
     </body>
 </html>
 ''', 201
+
+@app.route("/")
+@app.route("/index")
+def index():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>НГТУ, ФБ, Лабораторные работы</title>
+    </head>
+    <body>
+        <header>
+            <h1>НГТУ, ФБ, WEB-программирование, часть 2</h1>
+        </header>
+        <ul>
+        <li><a href="/lab1">Первая лабораторная</a></li>
+        </ul>
+    <footer>
+        <p>Кобзева Лидия Викторовна</p>
+        <p>ФБИ-21, 3 курс, 2024 год</p>
+    </footer>
+    </body>
+</html>
+'''
