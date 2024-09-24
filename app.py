@@ -64,8 +64,16 @@ def counter():
 <html>
     <body>
         Сколько раз вы сюда заходили: ''' + str(count) + '''
+        <br>
+        <a href="/lab1/reset_counter">Сбросить счетчик</a>
     </body>
 </html>'''
+
+@app.route("/lab1/reset_counter")
+def reset_counter():
+    global count
+    count = 0
+    return redirect("/lab1/counter")
 
 @app.route("/lab1/created")
 def created():
