@@ -90,7 +90,17 @@ def created():
     global resource_exists  # используем глобальную переменную для хранения состояния ресурса
 
     if resource_exists:
-        return "Отказано: ресурс уже создан", 400
+        return '''
+<doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
+    <body>
+        <h1>Отказано: ресурс уже создан</h1>
+    </body>
+</html>
+''', 400
     else:
         resource_exists = True
         return '''
@@ -126,7 +136,17 @@ def delete():
 </html>
 ''', 200
     else:
-        return "Отказано: ресурс отсутствует", 400
+        return '''
+<doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
+    <body>
+        <h1>Отказано: ресурс отсутствует</h1>
+    </body>
+</html>
+''', 400
 
 @app.route("/lab1/resource")
 def resource():
