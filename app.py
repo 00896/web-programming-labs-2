@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, make_response
+from flask import Flask, url_for, redirect
 app = Flask(__name__)
 
 @app.errorhandler(404)
@@ -20,19 +20,23 @@ def web():
 
 @app.route("/lab1/author")
 def author():
+    css = url_for("static", filename="main.css")
     name = "Кобзева Лидия Викторовна"
     group = "ФБИ-21"
     faculty = "ФБ"
 
-    return """<doctype html>
+    return '''<doctype html>
         <html>
+            <head>
+                <link rel="stylesheet" href="'''+ css + '''">
+            </head>
            <body>
-               <p>Студент: """ + name + """</p>
-               <p>Группа: """ + group + """</p>
-               <p>Факультет: """ + faculty + """</p>
+               <p>Студент: ''' + name + '''</p>
+               <p>Группа: ''' + group + '''</p>
+               <p>Факультет: ''' + faculty + '''</p>
                <a href="/lab1/web">web</a>
            </body>
-        </html>"""
+        </html>'''
 
 @app.route("/lab1/info")
 def info():
@@ -57,14 +61,18 @@ def oak():
 count = 0
 @app.route("/lab1/counter")
 def counter():
+    css = url_for("static", filename="main.css")
     global count 
     count += 1
     return '''
 <doctype html>
 <html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
     <body>
         Сколько раз вы сюда заходили: ''' + str(count) + '''
-        <br>
+        <br></br>
         <a href="/lab1/reset_counter">Сбросить счетчик</a>
     </body>
 </html>'''
@@ -75,26 +83,88 @@ def reset_counter():
     count = 0
     return redirect("/lab1/counter")
 
+resource_exists = False
 @app.route("/lab1/created")
 def created():
-    return '''
+    css = url_for("static", filename="main.css")
+    global resource_exists  # используем глобальную переменную для хранения состояния ресурса
+
+    if resource_exists:
+        return "Отказано: ресурс уже создан", 400
+    else:
+        resource_exists = True
+        return '''
 <doctype html>
 <html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
     <body>
-        <h1>Создано успешно</h1>
-        <div><i>что-то создано...</i></div> 
+        <h1>Успешно: ресурс создан</h1>
+        <div><i>Ресурс успешно создан.</i></div>
     </body>
 </html>
 ''', 201
 
+@app.route("/lab1/delete")
+def delete():
+    css = url_for("static", filename="main.css")
+    global resource_exists
+
+    if resource_exists:
+        resource_exists = False
+        return '''
+<doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
+    <body>
+        <h1>Успешно: ресурс удален</h1>
+        <div><i>Ресурс успешно удален.</i></div>
+    </body>
+</html>
+''', 200
+    else:
+        return "Отказано: ресурс отсутствует", 400
+
+@app.route("/lab1/resource")
+def resource():
+    css = url_for("static", filename="main.css")
+    global resource_exists
+
+    if resource_exists:
+        status = "Ресурс создан"
+    else:
+        status = "Ресурс ещё не создан"
+
+    return '''
+<doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="'''+ css + '''">
+    </head>
+    <body>
+        <h1>Статус ресурса</h1>
+        <div> '''+ status + '''</div>
+        <br>
+        <a href="/lab1/created">Создать ресурс</a>
+        <br>
+        <a href="/lab1/delete">Удалить ресурс</a>
+    </body>
+</html>
+'''
+
 @app.route("/")
 @app.route("/index")
 def index():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>НГТУ, ФБ, Лабораторные работы</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <header>
@@ -113,11 +183,13 @@ def index():
 
 @app.route("/lab1")
 def lab1():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Лабораторная 1</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
     <header>
@@ -152,6 +224,7 @@ def lab1():
         <li><a href="/405">Код 405 </a></li>
         <li><a href="/error">Код 500 </a></li>
         <li><a href="/kvezal">Квезаль </a></li>
+        <li><a href="/lab1/resource">Статус ресурса</a></li>
     </ol>
 
     <footer>
@@ -164,11 +237,13 @@ def lab1():
 
 @app.route('/400')
 def bad_request():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Bad Request</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>400 Bad Request</h1>
@@ -179,11 +254,13 @@ def bad_request():
 
 @app.route('/401')
 def unauthorized():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Unauthorized</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>401 Unauthorized</h1>
@@ -194,11 +271,13 @@ def unauthorized():
 
 @app.route('/402')
 def payment_required():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
     <html>
     <head>
         <title>Payment Required</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>402 Payment Required</h1>
@@ -212,11 +291,13 @@ def payment_required():
 
 @app.route('/403')
 def forbidden():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Forbidden</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>403 Forbidden</h1>
@@ -249,11 +330,13 @@ def still_not_found():
 
 @app.route('/405')
 def not_found():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Method Not Allowed</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>405 Method Not Allowed</h1>
@@ -264,11 +347,13 @@ def not_found():
 
 @app.route('/418')
 def teapot():
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>I'm a teapot</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>418 I'm a teapot</h1>
@@ -288,11 +373,13 @@ def trigger_error():
 
 @app.errorhandler(500)
 def internal_server_error(error):
+    css = url_for("static", filename="main.css")
     return '''
 <!doctype html>
 <html>
     <head>
         <title>Internal Server Error</title>
+        <link rel="stylesheet" href="'''+ css + '''">
     </head>
     <body>
         <h1>500 Internal Server Error</h1>
@@ -305,7 +392,7 @@ def internal_server_error(error):
 def kvezal():
     path = url_for("static", filename="kvezal.jpg")
     css_path = url_for("static", filename="kvezal.css")
-    content = '''
+    return '''
     <!doctype html>
     <html>
         <head>
@@ -339,11 +426,7 @@ def kvezal():
             <img src="''' + path + '''" >
         </body>
     </html>
-    '''
-    # Создание ответа с заголовками
-    response = make_response(content)
-    response.headers['Content-Language'] = 'ru'
-    response.headers['Kvezal'] = 'Bird' 
-    response.headers['Page'] = 'Green' 
-
-    return response
+    ''', {
+        'Kvezal':'Bird',
+        'Page': 'Green'
+    }
