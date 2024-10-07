@@ -450,3 +450,11 @@ def kvezal():
         'Kvezal':'Bird',
         'Page': 'Green'
     }
+
+@app.route('/lab2/a')
+def a():
+    return 'без слеша'
+
+@app.route('/lab2/a/')
+def a2():
+    return 'со слешем'
