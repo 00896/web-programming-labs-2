@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for ('static', filename='main.css')}}">
+    <title>
+        Кобзева Лидия. {% block lab %} {% endblock %}
+    </title>
+</head>
+<body>
+    <header>
+        WEB-программирование, часть 2. {{ self.lab() }}
+    </header>
+    <main>
+        {% block main %} {% endblock %}
+    </main>
+    <footer>
+        &copy; Кобзева Лидия, ФБИ-21, 3 курс, 2024
+    </footer>
+</body>
+</html>
