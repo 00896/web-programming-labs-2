@@ -7,6 +7,38 @@
     <title>
         Кобзева Лидия. {% block lab %} {% endblock %}
     </title>
+    <style>
+        a.button {
+            display: block;
+            padding: 10px 20px;
+            background-color: #e9edc9;
+            color:#798848;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            border-radius: 5px; /* Скругленные углы */
+            border: none;
+            transition: 0.3s ease; /* Эффект при наведении */
+            float: right; /* Кнопка справа */
+            margin: 10px; /* Отступы */
+        }
+    
+        a.button:hover {
+            background-color: #d1edc9; /* Цвет кнопки при наведении */
+            color: #798848;
+        }
+
+        a.button:link, a.button:visited {
+            text-decoration:none;
+            color: #798848;
+        }
+
+        a.button:active {
+            color: #798848;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -14,6 +46,8 @@
     </header>
     <main>
         {% block main %} {% endblock %}
+        <a href="/" class="button">На главную</a>
+        <br><br><br>
     </main>
     <footer>
         &copy; Кобзева Лидия, ФБИ-21, 3 курс, 2024
