@@ -593,3 +593,50 @@ books = [
 @app.route('/lab2/books')
 def books_list():
     return render_template('books.html', books=books)
+
+
+parrot_breeds = [
+    {
+        "name": "Кубинский амазон",
+        "image": "amazon.jpg",
+        "description": "Населяет Кубу и прилегающие к ней острова: Багамские, Большой Кайман и Малый Кайман."
+    },
+    {
+        "name": "Красный ара",
+        "image": "ara.jpg",
+        "description": "Крупный неотропический попугай желтого, красного и синего цветов, обитающий во влажных вечнозеленых лесах Америки."
+    },
+    {
+        "name": "Какаду",
+        "image": "kakadu.jpg",
+        "description": "Ареал какаду ограничен Австралией, Новой Гвинеей и некоторыми островами Тихого океана."
+    },
+    {
+        "name": "Жако",
+        "image": "zako.jpg",
+        "description": "Жако обитают в Западной и Центральной Африке."
+    },
+    {
+        "name": "Лорикеты и какаду",
+        "image": "loriket.jpg",
+        "description": "Что-то обсуждают"
+    },
+    {
+        "name": "Корелла и аратинга",
+        "image": "korrel.jpg",
+        "description": "Банный день луковицы"
+    },
+    {
+        "name": "Неразлучники",
+        "image": "family.jpg",
+        "description": "Семейное фото"
+    },
+    {
+        "name": "Сине-желтый ара",
+        "image": "siniara.jpg",
+        "description": "Ми тут проста созерцаем.."
+    }
+]
+@app.route('/lab2/parrots')
+def show_cats():
+    return render_template('parrots.html', parrot_breeds=parrot_breeds)

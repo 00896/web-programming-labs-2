@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 2{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .card {
+        background-color: #e9edc9;
+        border-radius: 1px;
+        width: 300px;
+        margin: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 1px;
+    }
+    .card h2 {
+        margin: 10px 0;
+    }
+
+    h1 {
+        text-align: center;
+    }
+</style>
+<h1>Попугайчики</h1>
+<div class="container">
+    {% for parrot in parrot_breeds %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='forparrots/' + parrot.image) }}" alt="{{ parrot.name }}">
+            <h2>{{ parrot.name }}</h2>
+            <p>{{ parrot.description }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
