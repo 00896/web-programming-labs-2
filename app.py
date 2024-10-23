@@ -1,10 +1,12 @@
 from flask import Flask, url_for, redirect, render_template
 from lab1 import lab1
 from lab2 import lab2
+from lab3 import lab3
 
 app = Flask(__name__)
 app.register_blueprint(lab1)
 app.register_blueprint(lab2)
+app.register_blueprint(lab3)
 
 @app.errorhandler(404)
 def not_found():
@@ -27,10 +29,9 @@ def index():
             <h1>НГТУ, ФБ, WEB-программирование, часть 2</h1>
         </header>
         <ul>
-        <li><a href="/lab1">Первая лабораторная</a></li>
-        </ul>
-        <ul>
-        <li><a href="/lab2">Вторая лабораторная</a></li>
+            <li><a href="/lab1">Первая лабораторная</a></li>
+            <li><a href="/lab2">Вторая лабораторная</a></li>
+            <li><a href="/lab3/">Третья лабораторная</a></li>
         </ul>
     <footer>
         <p>Кобзева Лидия Викторовна</p>
