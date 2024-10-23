@@ -11,52 +11,52 @@ def a2():
     return 'со слешем'
 
 
-flower_list = ['незабудка', 'одуванчик', 'колокольчик','гартензия']
-@lab2.route('/lab2/flowers/<int:flower_id>')
-def flowers(flower_id):
-    if flower_id >= len(flower_list):
-        return '''
-            <!doctype html>
-            <html>
-                <body>
-                <h1>Такого цветка нет</h1>
-                <p><a href="/lab2/flowers">Посмотреть все цветы</a></p>
-                </body>
-            </html>
-        ''', 404
-    else:
-        return f'''
-            <!doctype html>
-            <html>
-                <body>
-                <h1>Цветок: {flower_list[flower_id]}</h1>
-                <p><a href="/lab2/flowers">Посмотреть все цветы</a></p>
-                </body>
-            </html>
-        '''
+# flower_list = ['незабудка', 'одуванчик', 'колокольчик','гартензия']
+# @lab2.route('/lab2/flowers/<int:flower_id>')
+# def flowers(flower_id):
+#     if flower_id >= len(flower_list):
+#         return '''
+#             <!doctype html>
+#             <html>
+#                 <body>
+#                 <h1>Такого цветка нет</h1>
+#                 <p><a href="/lab2/flowers">Посмотреть все цветы</a></p>
+#                 </body>
+#             </html>
+#         ''', 404
+#     else:
+#         return f'''
+#             <!doctype html>
+#             <html>
+#                 <body>
+#                 <h1>Цветок: {flower_list[flower_id]}</h1>
+#                 <p><a href="/lab2/flowers">Посмотреть все цветы</a></p>
+#                 </body>
+#             </html>
+#         '''
 
 
-@lab2.route('/lab2/add_flower/', defaults={'name': None})
-@lab2.route('/lab2/add_flower/<name>')
-def add_flower(name):
-    if not name:
-         return "Вы не задали имя цветка", 400
-    flower_list.lab2end(name)
-    return f'''
-<!doctype html>
-<html>
-    <body>
-        <h1>Добавлен новый цветок</h1>
-        <p>Название нового цветка: {name}</p>
-        <p>Всего цветов: {len(flower_list)}</p>
-        <p>Полный список: {flower_list}</p>
-    </body>
-</html>
-'''
+# @lab2.route('/lab2/add_flower/', defaults={'name': None})
+# @lab2.route('/lab2/add_flower/<name>')
+# def add_flower(name):
+#     if not name:
+#          return "Вы не задали имя цветка", 400
+#     flower_list.lab2end(name)
+#     return f'''
+# <!doctype html>
+# <html>
+#     <body>
+#         <h1>Добавлен новый цветок</h1>
+#         <p>Название нового цветка: {name}</p>
+#         <p>Всего цветов: {len(flower_list)}</p>
+#         <p>Полный список: {flower_list}</p>
+#     </body>
+# </html>
+# '''
 
 
-@lab2.route('/lab2/flowers')
-def all_flowers():
+# @lab2.route('/lab2/flowers')
+# def all_flowers():
     return f'''
 <!doctype html>
 <html>
@@ -205,3 +205,40 @@ parrot_breeds = [
 @lab2.route('/lab2/parrots')
 def show_cats():
     return render_template('parrots.html', parrot_breeds=parrot_breeds)
+
+
+flower_list = [
+    {'name': 'незабудка', 'price': 100},
+    {'name': 'одуванчик', 'price': 50},
+    {'name': 'колокольчик', 'price': 150},
+    {'name': 'гартензия', 'price': 300}
+]
+
+@lab2.route('/lab2/blossom/add', methods=['POST'])
+def add_blossom():
+    name = request.form.get('name')
+    price = request.form.get('price')
+    
+    if not name or not price:
+        return "Необходимо указать название и цену цветка", 400
+    
+    flower_list.append({'name': name, 'price': int(price)})
+    return redirect(url_for('lab2.all_blossom'))
+
+
+@lab2.route('/lab2/blossom')
+def all_blossom():
+    return render_template('blossom.html', flowers=flower_list)
+
+@lab2.route('/lab2/blossom/delete/<int:flower_id>')
+def delete_blossom(flower_id):
+    if flower_id < 0 or flower_id >= len(flower_list):
+        return "Цветок не найден", 404
+    flower_list.pop(flower_id)
+    return redirect(url_for('lab2.all_blossom'))
+
+@lab2.route('/lab2/blossom/clear')
+def clear_blossom():
+    flower_list.clear()
+    return redirect(url_for('lab2.all_blossom'))
+
