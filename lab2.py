@@ -57,19 +57,25 @@ def a2():
 
 # @lab2.route('/lab2/flowers')
 # def all_flowers():
-    return f'''
-<!doctype html>
-<html>
-    <body>
-        <h1>Все цветы</h1>
-        <p>Количество цветов: {len(flower_list)}</p>
-        <ul>
-            {''.join([f'<li>{flower}</li>' for flower in flower_list])}
-        </ul>
-        <p><a href="/lab2/clear_flowers">Очистить список цветов</a></p>
-    </body>
-</html>
-'''
+#     return f'''
+# <!doctype html>
+# <html>
+#     <body>
+#         <h1>Все цветы</h1>
+#         <p>Количество цветов: {len(flower_list)}</p>
+#         <ul>
+#             {''.join([f'<li>{flower}</li>' for flower in flower_list])}
+#         </ul>
+#         <p><a href="/lab2/clear_flowers">Очистить список цветов</a></p>
+#     </body>
+# </html>
+# '''
+
+
+# @lab2.route('/lab2/clear_flowers')
+# def clear_flowers():
+    flower_list.clear()
+    return redirect(url_for('lab2.flowers'))
 
 
 @lab2.route('/lab2/example')
@@ -85,18 +91,18 @@ def example():
         {'name':'мандарины', 'price':180},
         {'name':'персики', 'price':250}
     ]
-    return render_template('example.html', name=name, number=number, group=group, number_course=number_course, fruits=fruits)
+    return render_template('lab2/example.html', name=name, number=number, group=group, number_course=number_course, fruits=fruits)
 
 
 @lab2.route('/lab2/')
 def lab():
-    return render_template('lab2.html')
+    return render_template('lab2/lab2.html')
 
 
 @lab2.route('/lab2/filters')
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных.."
-    return render_template('filter.html', phrase=phrase)
+    return render_template('lab2/filter.html', phrase=phrase)
 
 
 @lab2.route('/lab2/calc/')
@@ -157,7 +163,7 @@ books = [
 ]
 @lab2.route('/lab2/books')
 def books_list():
-    return render_template('books.html', books=books)
+    return render_template('lab2/books.html', books=books)
 
 
 parrot_breeds = [
@@ -203,8 +209,8 @@ parrot_breeds = [
     }
 ]
 @lab2.route('/lab2/parrots')
-def show_cats():
-    return render_template('parrots.html', parrot_breeds=parrot_breeds)
+def show_parrots():
+    return render_template('lab2/parrots.html', parrot_breeds=parrot_breeds)
 
 
 flower_list = [
@@ -228,7 +234,7 @@ def add_blossom():
 
 @lab2.route('/lab2/blossom')
 def all_blossom():
-    return render_template('blossom.html', flowers=flower_list)
+    return render_template('lab2/blossom.html', flowers=flower_list)
 
 @lab2.route('/lab2/blossom/delete/<int:flower_id>')
 def delete_blossom(flower_id):

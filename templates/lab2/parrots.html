@@ -36,7 +36,7 @@
 <div class="container">
     {% for parrot in parrot_breeds %}
         <div class="card">
-            <img src="{{ url_for('static', filename='forparrots/' + parrot.image) }}" alt="{{ parrot.name }}">
+            <img src="{{ url_for('static', filename='lab2/' + parrot.image) }}" alt="{{ parrot.name }}">
             <h2>{{ parrot.name }}</h2>
             <p>{{ parrot.description }}</p>
         </div>

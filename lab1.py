@@ -43,8 +43,8 @@ def info():
 
 @lab1.route("/lab1/oak")
 def oak():
-    path = url_for ("static", filename="cat.jpg")
-    css = url_for("static", filename="lab1.css")
+    path = url_for ("static", filename="lab1/cat.jpg")
+    css = url_for("static", filename="lab1/lab1.css")
     return '''
 <doctype html>
 <html>
@@ -237,8 +237,8 @@ def lab():
 
 @lab1.route('/kvezal')
 def kvezal():
-    path = url_for("static", filename="kvezal.jpg")
-    css_path = url_for("static", filename="kvezal.css")
+    path = url_for("static", filename="lab1/kvezal.jpg")
+    css_path = url_for("static", filename="lab1/kvezal.css")
     return '''
     <!doctype html>
     <html>
