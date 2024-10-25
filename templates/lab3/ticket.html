@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <style>
+        .ticket {
+            background-color: white;
+            border: 1px dashed #6a4b2d;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px #6a4b2d;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        h1, h3 {
+            text-align: center;
+        }
+    </style>
+    <h1>{{ticket_type}}</h1>
+    
+    <div class="ticket">
+        <div>
+            <strong>ФИО:</strong> {{ fcs }}
+        </div>
+        <div>
+            <strong>Возраст:</strong> {{ age }} ({{ ticket_type }})
+        </div>
+        <div>
+            <strong>Полка:</strong> {{ shelf }}
+        </div>
+        <div>
+            <strong>С бельём:</strong> {{ 'Да' if linen else 'Нет' }}
+        </div>
+        <div>
+            <strong>С багажом:</strong> {{ 'Да' if baggage else 'Нет' }}
+        </div>
+        <div>
+            <strong>Пункт выезда:</strong> {{ departure }}
+        </div>
+        <div>
+            <strong>Пункт назначения:</strong> {{ destination }}
+        </div>
+        <div>
+            <strong>Дата поездки:</strong> {{ travel_date }}
+        </div>
+        <div>
+            <strong>Страховка:</strong> {{ 'Да' if insurance else 'Нет' }}
+        </div>
+
+        <h3>Итоговая стоимость билета: {{ price }} руб.</h3>
+    </div>
+{% endblock %}

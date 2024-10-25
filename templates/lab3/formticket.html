@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <style>
+        form {
+            background-color: white;
+            border: 1px dashed #6a4b2d;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px #6a4b2d;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background-color: #e9edc9;
+            color: #798848;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #798848;
+            color: white;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+    </style>
+
+    <h1>Заполните данные для оформления билета</h1>
+    
+    <form action="/lab3/ticket" method="post">
+        <div>
+            <label>ФИО пассажира:</label>
+            <input type="text" name="fcs" required>
+        </div>
+
+        <div>
+            <label>Полка:</label>
+            <select name="shelf" required>
+                <option value="нижняя">Нижняя</option>
+                <option value="верхняя">Верхняя</option>
+                <option value="нижняя боковая">Нижняя боковая</option>
+                <option value="верхняя боковая">Верхняя боковая</option>
+            </select>
+        </div>
+
+        <div>
+            <label><input type="checkbox" name="linen"> С бельём (+75 руб.)</label>
+        </div>
+
+        <div>
+            <label><input type="checkbox" name="baggage"> Наличие багажа (+250руб.)</label>
+        </div>
+
+        <div>
+            <label>Возраст:</label>
+            <input type="number" name="age" min="1" max="120" required>
+        </div>
+
+        <div>
+            <label>Пункт выезда:</label>
+            <input type="text" name="departure" required>
+        </div>
+
+        <div>
+            <label>Пункт назначения:</label>
+            <input type="text" name="destination" required>
+        </div>
+
+        <div>
+            <label>Дата поездки:</label>
+            <input type="date" name="travel_date" required>
+        </div>
+
+        <div>
+            <label><input type="checkbox" name="insurance"> Нужна ли страховка (+150руб.)</label>
+        </div>
+
+        <div>
+            <button type="submit">Купить билет</button>
+        </div>
+    </form>
+{% endblock %}

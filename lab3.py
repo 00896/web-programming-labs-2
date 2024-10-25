@@ -117,3 +117,52 @@ def clear_settings():
     resp.delete_cookie('font_weight')
 
     return resp
+
+
+@lab3.route('/lab3/ticket', methods=['GET', 'POST'])
+def ticket():
+    if request.method == 'POST':
+        fcs = request.form.get('fcs')
+        shelf = request.form.get('shelf')
+        linen = request.form.get('linen') == 'on'
+        baggage = request.form.get('baggage') == 'on'
+        age = int(request.form.get('age', 0))
+        departure = request.form.get('departure')
+        destination = request.form.get('destination')
+        travel_date = request.form.get('travel_date')
+        insurance = request.form.get('insurance') == 'on'
+
+        if age < 1 or age > 120: #проверка возраста
+            return "Ошибка: возраст должен быть от 1 до 120 лет.", 400
+
+        # стоимость билета
+        if age < 18:
+            ticket_type = 'Детский билет'
+            price = 700  
+        else:
+            ticket_type = 'Взрослый билет'
+            price = 1000 
+
+        # стоимость в зависимости от выбора полки
+        if shelf in ['нижняя', 'нижняя боковая']:
+            price += 100
+
+        # увеличиваем стоимость за бельё
+        if linen:
+            price += 75
+
+        # увеличиваем стоимость за багаж
+        if baggage:
+            price += 250
+
+        # увеличиваем стоимость за страховку
+        if insurance:
+            price += 150
+
+        return render_template('lab3/ticket.html', 
+                               fcs=fcs, shelf=shelf, linen=linen, baggage=baggage, age=age, 
+                               departure=departure, destination=destination, 
+                               travel_date=travel_date, insurance=insurance, 
+                               ticket_type=ticket_type, price=price)
+
+    return render_template('lab3/formticket.html')
