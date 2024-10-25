@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Cookies</h1>
+    <form>
+        <div>
+            <label for="color">Цвет текста:</label>
+            <input type="color" id="color" name="color" value="{{ color or ''}}">
+        </div>
+
+        <div>
+            <label for="background_color">Цвет фона:</label>
+            <input type="color" id="background_color" name="background_color" value="{{ background_color or ''}}">
+        </div>
+
+        <div>
+            <label for="font_size">Размер шрифта:</label>
+            <input type="number" id="font_size" name="font_size" value="{{ font_size }}">
+        </div>
+
+        <div>
+            <label for="font_weight">Толщина шрифта:</label>
+            <select id="font_weight" name="font_weight">
+                <option value="normal" {{ font_weight == 'normal' and 'selected' }}>Нормальный</option>
+                <option value="bold" {{ font_weight == 'bold' and 'selected' }}>Жирный</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">OK</button>
+        </div>
+    </form>
+
+    <div>
+        <a href="/lab3/clear_settings">Очистить настройки</a>
+    </div>
+{% endblock %}
