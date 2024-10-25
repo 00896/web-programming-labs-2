@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <h1>Ноутбуки в диапазоне цен от {{ min_price }}&#36; до {{ max_price }}&#36;</h1>
+        
+    {% if products %}
+        <ul>
+        {% for product in products %}
+            <li>{{ product['name'] }} — {{ product['price'] }}&#36;, Бренд: {{ product['brand'] }}, Цвет: {{ product['color'] }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет товаров в заданном диапазоне цен.</p>
+    {% endif %}
+
+    <a href="{{ url_for('lab3.search') }}">Новый поиск</a>
+{% endblock %}

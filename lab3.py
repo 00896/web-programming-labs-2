@@ -166,3 +166,48 @@ def ticket():
                                ticket_type=ticket_type, price=price)
 
     return render_template('lab3/formticket.html')
+
+
+#доп.задание по списку ноутбуков
+products = [
+    {"name": "MacBook Air M1", "price": 999, "brand": "Apple", "color": "Silver"},
+    {"name": "Dell XPS 13", "price": 1099, "brand": "Dell", "color": "Black"},
+    {"name": "HP Spectre x360", "price": 1249, "brand": "HP", "color": "Silver"},
+    {"name": "Asus ZenBook 14", "price": 899, "brand": "Asus", "color": "Blue"},
+    {"name": "Lenovo ThinkPad X1 Carbon", "price": 1299, "brand": "Lenovo", "color": "Black"},
+    {"name": "Acer Swift 3", "price": 699, "brand": "Acer", "color": "Gray"},
+    {"name": "Microsoft Surface Laptop 4", "price": 1199, "brand": "Microsoft", "color": "Platinum"},
+    {"name": "Razer Blade 15", "price": 1599, "brand": "Razer", "color": "Black"},
+    {"name": "MSI GS66 Stealth", "price": 1799, "brand": "MSI", "color": "Black"},
+    {"name": "Samsung Galaxy Book Pro", "price": 1049, "brand": "Samsung", "color": "Silver"},
+    {"name": "Huawei MateBook X Pro", "price": 1399, "brand": "Huawei", "color": "Gray"},
+    {"name": "LG Gram 17", "price": 1499, "brand": "LG", "color": "White"},
+    {"name": "Google Pixelbook Go", "price": 849, "brand": "Google", "color": "Black"},
+    {"name": "Asus ROG Zephyrus G14", "price": 1199, "brand": "Asus", "color": "White"},
+    {"name": "Dell Inspiron 15", "price": 749, "brand": "Dell", "color": "Black"},
+    {"name": "HP Pavilion 15", "price": 599, "brand": "HP", "color": "Silver"},
+    {"name": "Lenovo Yoga 9i", "price": 1299, "brand": "Lenovo", "color": "Mica"},
+    {"name": "Acer Predator Helios 300", "price": 1299, "brand": "Acer", "color": "Black"},
+    {"name": "Microsoft Surface Pro 7", "price": 899, "brand": "Microsoft", "color": "Black"},
+    {"name": "Razer Book 13", "price": 1399, "brand": "Razer", "color": "White"}
+]
+@lab3.route('/lab3/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+            # Получаем значения из формы
+            try:
+                min_price = int(request.form.get('min_price'))
+                max_price = int(request.form.get('max_price'))
+            except ValueError:
+                return "Введите корректные числовые значения для цены."
+
+            # Фильтруем товары по цене
+            filtered_products = [
+                product for product in products 
+                if min_price <= product['price'] <= max_price
+            ]
+
+            # Передаем отфильтрованные товары в шаблон
+            return render_template('lab3/search_results.html', products=filtered_products, min_price=min_price, max_price=max_price)
+
+    return render_template('lab3/search_form.html')
