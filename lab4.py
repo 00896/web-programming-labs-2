@@ -128,10 +128,10 @@ def tree():
 
 
 users = [
-    {'login':'alex','password':'123'},
-    {'login':'bob','password':'555'},
-    {'login':'oliver','password':'456'},
-    {'login':'tourist','password':'666'}
+    {'login': 'alex', 'password': '1234', 'name': 'Alexander Ivanov', 'gender': 'male'},
+    {'login':'bob','password':'555', 'name': 'Bob Ross', 'gender': 'male'},
+    {'login':'oliver','password':'456', 'name': 'Olive Liviera', 'gender': 'male'},
+    {'login':'tourist','password':'666', 'name': 'Турист', 'gender': 'male'}
 ]
 
 @lab4.route('/lab4/login', methods=['POST','GET'])
@@ -139,22 +139,29 @@ def login():
     if request.method == 'GET':
         if 'login' in session:
             authorized = True
-            login = session['login']
+            user_login = session['login']
+            user = next((u for u in users if u['login'] == user_login), None)
+            name = user['name'] if user else user_login
         else: 
             authorized = False
-            login = ''
-        return render_template('lab4/login.html', authorized = authorized, login = login)
+            name = ''
+        return render_template('lab4/login.html', authorized = authorized, name=name)
     
     login = request.form.get('login')
     password = request.form.get('password')
 
-    for user in users:
-        if login == user['login'] and password == user['password']:
+    if not login:
+        error = 'Не введён логин'
+    elif not password:
+        error = 'Не введён пароль'
+    else:
+        user = next((u for u in users if u['login'] == login and u['password'] == password), None)
+        if user:
             session['login'] = login
             return redirect('/lab4/login')
-    
-    error = 'Неверные логин и/или пароль'
-    return render_template('lab4/login.html', error = error, authorized=False)
+        error = 'Неверные логин и/или пароль'
+
+    return render_template('lab4/login.html', error = error, authorized=False, login=login)
 
 
 @lab4.route('/lab4/logout', methods=['POST'])
