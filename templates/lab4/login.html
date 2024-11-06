@@ -8,6 +8,8 @@
     {% if authorized %}
         <h1>Добро пожаловать, {{ name }}!</h1>
         <div>
+            <a href="{{ url_for('lab4.users_list') }}">Cписок пользователей</a>
+            <div></div>
             <form action="/lab4/logout" method="post">
                 <button>Выход</button>
             </form>
@@ -29,6 +31,7 @@
                 <button type="submit">Войти</button>
                 <button type="reset">Отмена</button>
             </div>
+            <br><div style="font-style:italic">Хотите Зарегистрироваться?</div><a href="{{ url_for('lab4.register') }}">Регистрация</a>
         </form>
     {% endif %}
 {% endblock %}

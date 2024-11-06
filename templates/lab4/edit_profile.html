@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 4{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <h1>Редактирование профиля</h1>
+    <form method="post">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" value="{{ user.name }}" required>
+        <label for="password">Новый пароль:</label>
+        <input type="password" id="password" name="password" value="{{ user.password }}" required>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}
