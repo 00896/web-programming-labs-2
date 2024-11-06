@@ -1,4 +1,4 @@
-from flask import Blueprint, session, redirect, render_template, request
+from flask import Blueprint, session, redirect, render_template, request, url_for
 lab4 = Blueprint('lab4',__name__)
 
 
@@ -197,3 +197,45 @@ def fridge():
             snowflakes = "❄️"  
 
     return render_template('lab4/fridge.html', message=message, snowflakes=snowflakes)
+
+
+grain_prices = {
+    'Ячмень': 12345,
+    'Овёс': 8522,
+    'Пшеница': 8722,
+    'Рожь': 14111
+}
+
+@lab4.route('/lab4/order_grain', methods=['GET', 'POST'])
+def order_grain():
+    if request.method == 'POST':
+        grain = request.form.get('grain')
+        try:
+            weight = int(request.form.get('weight'))
+            if weight <= 0:
+                message = 'Ошибка: вес должен быть больше 0'
+            elif weight > 500:
+                message = 'Приносим извинения, такого объёма нет в наличии'
+            else:
+                price_per_ton = grain_prices[grain]
+                total_price = price_per_ton * weight
+                discount_applied = ''
+                discount_amount = 0  #переменная для вывода суммы скидки
+                if weight > 50:
+                    discount_amount = total_price * 0.1 
+                    total_price *= 0.9  
+                    discount_applied = f' Применена скидка 10%, сумма скидки: {discount_amount:.2f} руб.'
+
+                message = f'Заказ успешно сформирован. Вы заказали {grain}. Вес: {weight} т. Сумма к оплате: {total_price:.2f} руб.{discount_applied}'
+            
+            return redirect(url_for('lab4.order_grain', message=message))
+        
+        except (TypeError, ValueError):
+            message = 'Ошибка: некорректно указан вес'
+        except KeyError:
+            message = 'Ошибка: не поддерживаемое зерно'
+        
+        return redirect(url_for('lab4.order_grain', message=message))
+    
+    message = request.args.get('message')
+    return render_template('lab4/order_grain.html', message=message)
