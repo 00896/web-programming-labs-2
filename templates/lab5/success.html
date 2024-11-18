@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <style>
+        h1{
+            text-align: center;
+        }
+        h3{
+            margin: auto 20px;
+            text-align: center;
+        }
+    </style>
+    <h1>Вы успешно зарегистрировались</h1>
+    <h3><a href="/lab5/">Перейти к Базе знаний</a><h3>
+{% endblock %}
