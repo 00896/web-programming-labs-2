@@ -2,6 +2,7 @@ from flask import Blueprint, session, redirect, render_template, request, url_fo
 lab5 = Blueprint('lab5',__name__)
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from werkzeug.security import check_password_hash, generate_password_hash
 
 #пароль postgres dfgmoi45 lidia_kobzeva_knowledge_base
 
@@ -47,8 +48,9 @@ def register():
         db_close(conn,cur)
         return render_template('lab5/register.html', error = 'Такой пользователь уже существует')
     
+    password_hash = generate_password_hash(password)
     # если же пользователя в БД нет, то его можно зарегистрировать в системе, вставив в таблицу логин и пароль
-    cur.execute(f"INSERT INTO users (login, password) VALUES ('{login}', '{password}');")
+    cur.execute(f"INSERT INTO users (login, password) VALUES ('{login}', '{password_hash}');")
     db_close(conn,cur)
     return render_template ('lab5/success.html', login=login )
 
@@ -74,7 +76,7 @@ def login():
         return render_template('lab5/login.html', error = 'Логин и/или пароль неверен')
     
     # если пользователь найден, то нужно прочитать его пароль — если введённый пароль не совпадает с паролем из БД, то выдать сообщение об ошибке
-    if user['password'] !=password:
+    if not check_password_hash(user['password'], password):
         db_close(conn,cur)
         return render_template('lab5/login.html', error = 'Логин и/или пароль неверен')
     
