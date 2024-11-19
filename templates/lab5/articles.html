@@ -5,10 +5,26 @@
 
 {#основной контент: #}
 {% block main %}
+    <style>
+        .article {
+            border: 1px solid #798848;; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            background-color: #f9f9f9; 
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
+        }
+        .article h2 {
+            margin: 0 0 10px 0; 
+        }
+    </style>
+
     <h1>Статьи</h1>
 
     {% for article in articles %}
-        <h2>{{ article['title'] }}</h2>
-        <blockquote>{{ article['article_text'] }}</blockquote>
+        <div class="article">   
+            <h2>{{ article['title'] }}</h2>
+            <blockquote>{{ article['article_text'] }}</blockquote>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -5,6 +5,22 @@
 
 {#основной контент: #}
 {% block main %}
+    <style>
+        button {
+            display: inline-block;
+            padding: 10px 10px;
+            background-color: #e9edc9;
+            color:#798848;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px; /* Скругленные углы */
+            border: none;
+            transition: 0.3s ease; /* Эффект при наведении */
+            margin: 10px; /* Отступы */
+            cursor: pointer;
+        }
+    </style>
     <h1>Создание статьи</h1>
 
     <form method="post">
