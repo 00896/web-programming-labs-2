@@ -35,6 +35,22 @@
         main {
             text-align: center;
         }
+
+        .logout {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f0cfab;
+            text-align: right;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px; /* Скругленные углы */
+            border: none;
+            transition: 0.3s ease; /* Эффект при наведении */
+            margin: 10px; /* Отступы */
+            cursor: pointer;
+            position: relative;
+            left: 708px;
+        }
     </style>
     <h1>База знаний</h1>
     <div class="menu">
@@ -46,5 +62,9 @@
     <div class="user">
         Профиль: {{ login if login else "Anonymous" }}
     </div>
+
+    {% if login %}
+        <a href="/lab5/logout" class="logout">Выйти</a>
+    {% endif %}
     <br><br><br>
 {% endblock %}
