@@ -168,3 +168,58 @@ def list():
         return render_template('/lab5/articles.html', message=message)
     
     return render_template('/lab5/articles.html', articles=articles)
+
+
+@lab5.route('/lab5/edit/<int:article_id>', methods=['GET', 'POST'])
+def edit(article_id):
+    login = session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+
+    conn, cur = db_connect()
+
+    if request.method == 'GET':
+        # Получить данные статьи по ID
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("SELECT * FROM articles WHERE id=%s;", (article_id,))
+        else:
+            cur.execute("SELECT * FROM articles WHERE id=?;", (article_id,))
+        article = cur.fetchone()
+
+        # Если статья не найдена или не принадлежит пользователю
+        if not article:
+            db_close(conn, cur)
+            return "Статья не найдена", 404
+
+        # Проверяем, принадлежит ли статья текущему пользователю
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+        else:
+            cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+        login_id = cur.fetchone()["id"]
+
+        if article["login_id"] != login_id:
+            db_close(conn, cur)
+            return "Доступ запрещен", 403
+
+        db_close(conn, cur)
+        return render_template('lab5/edit_article.html', article=article)
+
+    # POST запрос - сохранение изменений
+    title = request.form.get('title')
+    article_text = request.form.get('article_text')
+
+    # Проверка на пустые поля
+    if not title or not article_text:
+        error_message = "Название статьи и текст не могут быть пустыми"
+        db_close(conn, cur)
+        return render_template('lab5/edit_article.html', article={"id": article_id, "title": title, "article_text": article_text}, error_message=error_message)
+
+    # Обновление статьи в базе данных
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("UPDATE articles SET title=%s, article_text=%s WHERE id=%s;", (title, article_text, article_id))
+    else:
+        cur.execute("UPDATE articles SET title=?, article_text=? WHERE id=?;", (title, article_text, article_id))
+
+    db_close(conn, cur)
+    return redirect('/lab5/list')

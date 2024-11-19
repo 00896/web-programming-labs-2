@@ -7,7 +7,7 @@
 {% block main %}
     <style>
         .article {
-            border: 1px solid #798848;; 
+            border: 1px solid #798848;
             padding: 15px; 
             margin-bottom: 20px; 
             border-radius: 8px; 
@@ -28,6 +28,7 @@
                 <div class="article">   
                     <h2>{{ article['title'] }}</h2>
                     <blockquote>{{ article['article_text'] }}</blockquote>
+                    <a href="/lab5/edit/{{ article['id'] }}">Редактировать</a>
                 </div>
             {% endfor %}
         </div>
