@@ -158,4 +158,9 @@ def list():
     articles= cur.fetchall()
 
     db_close(conn, cur)
+
+    if not articles:
+        message = "У вас пока нет ни одной статьи"
+        return render_template('/lab5/articles.html', message=message)
+    
     return render_template('/lab5/articles.html', articles=articles)

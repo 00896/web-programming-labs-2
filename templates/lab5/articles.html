@@ -20,11 +20,16 @@
     </style>
 
     <h1>Статьи</h1>
-
-    {% for article in articles %}
-        <div class="article">   
-            <h2>{{ article['title'] }}</h2>
-            <blockquote>{{ article['article_text'] }}</blockquote>
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% else %}
+        <div>
+            {% for article in articles %}
+                <div class="article">   
+                    <h2>{{ article['title'] }}</h2>
+                    <blockquote>{{ article['article_text'] }}</blockquote>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
