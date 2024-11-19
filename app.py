@@ -17,9 +17,9 @@ app.register_blueprint(lab3)
 app.register_blueprint(lab4)
 app.register_blueprint(lab5)
 
-@app.errorhandler(404)
-def not_found():
-    return "Нет такой страницы", 404
+#@app.errorhandler(404)
+#def not_found():
+#    return "Нет такой страницы", 404
 
 
 @app.route("/")

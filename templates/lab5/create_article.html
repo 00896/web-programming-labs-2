@@ -35,6 +35,10 @@
             <textarea  name="article_text"></textarea>
         </div>
 
+        {% if error_message %}
+            <div style="color: red; font-style: italic;"><br>{{ error_message }}</div>
+        {% endif %}
+
         <div>
             <button type="submit">Готово</button>
         </div>
