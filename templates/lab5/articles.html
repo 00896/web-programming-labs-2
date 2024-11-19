@@ -28,7 +28,12 @@
                 <div class="article">   
                     <h2>{{ article['title'] }}</h2>
                     <blockquote>{{ article['article_text'] }}</blockquote>
-                    <a href="/lab5/edit/{{ article['id'] }}">Редактировать</a>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="/lab5/edit/{{ article['id'] }}" style="background-color: #798848; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">Редактировать</a>
+                        <form method="post" action="/lab5/delete/{{ article['id'] }}">
+                            <button type="submit" style="background-color: #798848; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Удалить</button>
+                        </form>
+                    </div>
                 </div>
             {% endfor %}
         </div>

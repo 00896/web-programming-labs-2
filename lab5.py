@@ -179,19 +179,16 @@ def edit(article_id):
     conn, cur = db_connect()
 
     if request.method == 'GET':
-        # Получить данные статьи по ID
         if current_app.config['DB_TYPE'] == 'postgres':
             cur.execute("SELECT * FROM articles WHERE id=%s;", (article_id,))
         else:
             cur.execute("SELECT * FROM articles WHERE id=?;", (article_id,))
         article = cur.fetchone()
 
-        # Если статья не найдена или не принадлежит пользователю
         if not article:
             db_close(conn, cur)
             return "Статья не найдена", 404
 
-        # Проверяем, принадлежит ли статья текущему пользователю
         if current_app.config['DB_TYPE'] == 'postgres':
             cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
         else:
@@ -205,21 +202,51 @@ def edit(article_id):
         db_close(conn, cur)
         return render_template('lab5/edit_article.html', article=article)
 
-    # POST запрос - сохранение изменений
     title = request.form.get('title')
     article_text = request.form.get('article_text')
 
-    # Проверка на пустые поля
     if not title or not article_text:
         error_message = "Название статьи и текст не могут быть пустыми"
         db_close(conn, cur)
         return render_template('lab5/edit_article.html', article={"id": article_id, "title": title, "article_text": article_text}, error_message=error_message)
 
-    # Обновление статьи в базе данных
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("UPDATE articles SET title=%s, article_text=%s WHERE id=%s;", (title, article_text, article_id))
     else:
         cur.execute("UPDATE articles SET title=?, article_text=? WHERE id=?;", (title, article_text, article_id))
+
+    db_close(conn, cur)
+    return redirect('/lab5/list')
+
+
+@lab5.route('/lab5/delete/<int:article_id>', methods=['POST'])
+def delete(article_id):
+    login = session.get('login')
+    if not login:
+        return redirect('/lab5/login')
+
+    conn, cur = db_connect()
+
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+    else:
+        cur.execute("SELECT id FROM users WHERE login=?;", (login,))
+    login_id = cur.fetchone()["id"]
+
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT * FROM articles WHERE id=%s AND login_id=%s;", (article_id, login_id))
+    else:
+        cur.execute("SELECT * FROM articles WHERE id=? AND login_id=?;", (article_id, login_id))
+    article = cur.fetchone()
+
+    if not article:
+        db_close(conn, cur)
+        return "Статья не найдена или доступ запрещен", 403
+
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("DELETE FROM articles WHERE id=%s;", (article_id,))
+    else:
+        cur.execute("DELETE FROM articles WHERE id=?;", (article_id,))
 
     db_close(conn, cur)
     return redirect('/lab5/list')
