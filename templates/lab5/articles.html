@@ -11,7 +11,7 @@
             padding: 15px; 
             margin-bottom: 20px; 
             border-radius: 8px; 
-            background-color: #f9f9f9; 
+            background-color: #f9f9f9;
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
         }
         .article h2 {
@@ -20,12 +20,13 @@
     </style>
 
     <h1>Статьи</h1>
+    <h3><a href="/lab5/public_articles">Перейти к публичным статьям</a></h3>
     {% if message %}
-        <h2>{{ message }}</h2>
+        <br><h2>{{ message }}</h2>
     {% else %}
         <div>
             {% for article in articles %}
-                <div class="article">   
+                <div class="article" style="background-color: {% if article['is_favorite'] %}#e9edc9{% else %}#f9f9f9{% endif %};">   
                     <h2>{{ article['title'] }}</h2>
                     <blockquote>{{ article['article_text'] }}</blockquote>
                     <div style="display: flex; gap: 10px;">
@@ -33,9 +34,15 @@
                         <form method="post" action="/lab5/delete/{{ article['id'] }}">
                             <button type="submit" style="background-color: #798848; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Удалить</button>
                         </form>
+                        <form method="post" action="/lab5/favorite/{{ article['id'] }}">
+                            <button type="submit" style="background-color: {% if article['is_favorite'] %}#ffa07a{% else %}#798848{% endif %}; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                                {% if article['is_favorite'] %}Убрать из любимых{% else %}В любимые{% endif %}
+                            </button>
+                        </form>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
+

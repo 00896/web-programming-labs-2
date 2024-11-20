@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 5{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <style>
+        .article {
+            border: 1px solid #798848;
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            background-color: #f9f9f9;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
+            margin: 10px 20px 56px 10px;
+        }
+        h2 {
+            margin: 0 0 10px 0; 
+        }
+
+        .id{
+            margin: 0px 20px 0px 10px;
+            font-style: italic;
+        }
+    </style>
+    <h1>Публичные статьи</h1>
+
+    {% if articles %}
+        {% for article in articles %}
+            <div class="article">
+                <h2><div>{{ article['title'] }}</div></h2>
+                <blockquote>{{ article['article_text'] }}</blockquote>
+                <div class="id">ID автора: {{ article['login_id'] }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Нет доступных публичных статей</p>
+    {% endif %}
+{% endblock %}

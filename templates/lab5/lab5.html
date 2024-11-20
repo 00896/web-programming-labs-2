@@ -51,6 +51,22 @@
             position: relative;
             left: 708px;
         }
+
+        .list {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #f0cfab;
+            text-align: right;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px; /* Скругленные углы */
+            border: none;
+            transition: 0.3s ease; /* Эффект при наведении */
+            margin: -10px; /* Отступы */
+            cursor: pointer;
+            position: relative;
+            left: 654px;
+        }
     </style>
     <h1>База знаний</h1>
     <div class="menu">
@@ -66,5 +82,6 @@
     {% if login %}
         <a href="/lab5/logout" class="logout">Выйти</a>
     {% endif %}
+    <p><a href="/lab5/users" class="list">Список пользователей</a></p>
     <br><br><br>
 {% endblock %}
