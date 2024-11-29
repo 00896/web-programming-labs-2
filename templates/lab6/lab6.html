@@ -8,71 +8,98 @@
     function getOfficeList() {
         const url = '/lab6/json-rpc-api/';
         const json = {
-            'jsonrpc':'2.0',
-            'method':'info',
-            'id': Math.round(Math.random()*1000)
+            'jsonrpc': '2.0',
+            'method': 'info',
+            'id': Math.round(Math.random() * 1000)
         };
         fetch(url, {
-            method:'POST',
-            headers: {'Content-Type':'application/json'},
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json)
         })
-        .then(function(response) {
-            return response.json()
-        }) 
-        .then(function(data) {
+        .then(response => response.json())
+        .then(data => {
             const office_list = data.result;
             const ul = document.getElementById('office-list');
-            for(let i = 0; i < office_list.length; i++) {
+            ul.innerHTML = ''; // Очистим список перед обновлением
+            for (let i = 0; i < office_list.length; i++) {
                 const office = office_list[i];
                 const li = document.createElement('li');
-                li.innerText = `${office.number}: ${office.tenant ||'свободен' }`;
+                li.innerText = `${office.number}: ${office.tenant || 'свободен'}`;
 
-                const bookingButton = document.createElement('button'); 
-                bookingButton.innerText = 'Зарезервировать'; 
-                bookingButton.onclick = function() {booking(office.number)};
-                li.appendChild(bookingButton);
+                if (!office.tenant) {
+                    const bookingButton = document.createElement('button');
+                    bookingButton.innerText = 'Зарезервировать';
+                    bookingButton.onclick = function() { booking(office.number); };
+                    li.appendChild(bookingButton);
+                } else {
+                    const cancelButton = document.createElement('button');
+                    cancelButton.innerText = 'Освободить';
+                    cancelButton.onclick = function() { cancel(office.number); };
+                    li.appendChild(cancelButton);
+                }
 
                 ul.appendChild(li);
             }
         });
-    };
+    }
 
-    function booking(officeNumber){
+    function booking(officeNumber) {
         const url = '/lab6/json-rpc-api/';
         const json = {
-            'jsonrpc':'2.0',
-            'method':'booking',
+            'jsonrpc': '2.0',
+            'method': 'booking',
             'params': officeNumber,
-            'id': Math.round(Math.random()*1000)
+            'id': Math.round(Math.random() * 1000)
         };
         fetch(url, {
-            method:'POST',
-            headers: {'Content-Type':'application/json'},
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(json)
         })
-        .then(function(response) {
-            return response.json()
+        .then(response => response.json())
+        .then(data => handleResponse(data));
+    }
+
+    function cancel(officeNumber) {
+        const url = '/lab6/json-rpc-api/';
+        const json = {
+            'jsonrpc': '2.0',
+            'method': 'cancellation',
+            'params': officeNumber,
+            'id': Math.round(Math.random() * 1000)
+        };
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
         })
-        .then(function(data) {
-            if(data.error) {
-                switch (data.error.code) {
-                    case 1:
-                        alert('Вы не авторизованы. Пожалуйста, авторизуйтесь');
-                        break;
-                    case 2:
-                        alert('Офис уже арендуется');
-                        break;
-                    case -32601:
-                        alert('Странная ошибка');
-                        break;
-                }
+        .then(response => response.json())
+        .then(data => handleResponse(data));
+    }
+
+    function handleResponse(data) {
+        if (data.error) {
+            switch (data.error.code) {
+                case 1:
+                    alert('Вы не авторизованы. Пожалуйста, авторизуйтесь');
+                    break;
+                case 2:
+                    alert('Офис уже арендуется');
+                    break;
+                case 3:
+                    alert('Офис не арендован');
+                    break;
+                case 4:
+                    alert('Вы не являетесь арендатором этого офиса');
+                    break;
+                case -32601:
+                    alert('Странная ошибка');
+                    break;
             }
-            else {
-                document.getElementById('office-list').innerHTML = '';
-                getOfficeList(); 
-            }
-        });
+        } else {
+            getOfficeList();
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
