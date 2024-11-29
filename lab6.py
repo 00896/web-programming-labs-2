@@ -60,6 +60,17 @@ def api():
             'id': id
         }
 
+    if not login:
+        db_close(conn, cur)
+        return {
+            'jsonrpc': '2.0',
+            'error': {
+                'code': 1,
+                'message': 'Unauthorized'
+            },
+            'id': id
+        }
+
     if data['method'] == 'calculate_cost':
         if not login:
             db_close(conn, cur)
