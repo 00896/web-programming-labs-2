@@ -30,11 +30,13 @@
                 if (!office.tenant) {
                     const bookingButton = document.createElement('button');
                     bookingButton.innerText = 'Зарезервировать';
+                    bookingButton.className = 'reserve'; 
                     bookingButton.onclick = function() { booking(office.number); };
                     li.appendChild(bookingButton);
                 } else {
                     const cancelButton = document.createElement('button');
                     cancelButton.innerText = 'Освободить';
+                    cancelButton.className = 'cancel';
                     cancelButton.onclick = function() { cancel(office.number); };
                     li.appendChild(cancelButton);
                 }
@@ -136,6 +138,40 @@
 
 {#основной контент: #}
 {% block main %}
+    <style>
+        button {
+            padding: 1px 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.reserve {
+            background-color: #798848; 
+            color: white;
+        }
+    
+        button.reserve:hover {
+            background-color: #6a773e; 
+        }
+
+        button.cancel {
+            background-color: #ffa07a; 
+            color: white;
+        }
+    
+        button.cancel:hover {
+            background-color: #f1906a;
+        }
+
+        li{
+            padding: 2px;
+        }
+    </style>
+    
     <h1>Список кабинетов</h1>
     <ul id="office-list"></ul>
     <h2 id="total-cost"></h2>
