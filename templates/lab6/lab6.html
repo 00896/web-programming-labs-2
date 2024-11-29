@@ -64,7 +64,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                document.getElementById('total-cost').innerText = 'Авторизуйтесь, чтобы увидеть стоимость аренды.';
+                document.getElementById('total-cost').innerText = 'Авторизуйтесь, чтобы увидеть рассчитать стоимость.';
             } else {
                 document.getElementById('total-cost').innerText = `Общая стоимость аренды: ${data.result} руб.`;
             }
