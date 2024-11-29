@@ -5,7 +5,7 @@ lab6 = Blueprint('lab6',__name__)
 # tenant — арендатор. Если арендатор пуст, то это означает, что офис не арендуется
 offices = []
 for i in range(1,11):
-    offices.append({"number": i,"tenant": ""})
+    offices.append({"number": i,"tenant": "", "price": 900 + i%9})
 
 
 @lab6.route('/lab6/')
@@ -25,6 +25,24 @@ def api():
             'result': offices,
             'id': id
         }    
+
+    if data['method'] == 'calculate_cost':
+        if not login:
+            return {
+                'jsonrpc': '2.0',
+                'error': {
+                    'code': 1,
+                    'message': 'Unauthorized'
+                },
+                'id': id
+            }
+
+        total_cost = sum(office['price'] for office in offices if office['tenant'] == login)
+        return {
+            'jsonrpc': '2.0',
+            'result': total_cost,
+            'id': id
+        }
 
     if not login:
         return {

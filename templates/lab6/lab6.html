@@ -25,7 +25,7 @@
             for (let i = 0; i < office_list.length; i++) {
                 const office = office_list[i];
                 const li = document.createElement('li');
-                li.innerText = `${office.number}: ${office.tenant || 'свободен'}`;
+                li.innerText = `${office.number}: ${office.tenant || 'свободен'} (Цена: ${office.price} руб.)`;
 
                 if (!office.tenant) {
                     const bookingButton = document.createElement('button');
@@ -41,6 +41,31 @@
 
                 ul.appendChild(li);
             }
+
+            calculateTotalCost(); // Обновляем общую стоимость
+        });
+    }
+
+    function calculateTotalCost() {
+        const url = '/lab6/json-rpc-api/';
+        const json = {
+            'jsonrpc': '2.0',
+            'method': 'calculate_cost',
+            'id': Math.round(Math.random() * 1000)
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById('total-cost').innerText = 'Авторизуйтесь, чтобы увидеть стоимость аренды.';
+            } else {
+                document.getElementById('total-cost').innerText = `Общая стоимость аренды: ${data.result} руб.`;
+            }
         });
     }
 
@@ -52,6 +77,7 @@
             'params': officeNumber,
             'id': Math.round(Math.random() * 1000)
         };
+
         fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -112,4 +138,5 @@
 {% block main %}
     <h1>Список кабинетов</h1>
     <ul id="office-list"></ul>
+    <h2 id="total-cost"></h2>
 {% endblock %}
