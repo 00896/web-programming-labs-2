@@ -101,11 +101,23 @@ def del_film(id):
 def put_film(id):
     if 0 <= id < len(films):
         film = request.get_json()
-        if film['description'] == '':
-            return {'description':'Заполните описание'}, 400 
-        films[id] = film  
+        if not film.get('description') or len(film['description']) > 2000:
+            return {'description': 'Описание обязательно и должно содержать не более 2000 символов'}, 400
+        if not film.get('title') and not film.get('title_ru'):
+            return {'title': 'Укажите хотя бы одно название (оригинальное или русское)'}, 400
+        if not film.get('title_ru'):
+            return {'title_ru': 'Русское название обязательно'}, 400
         if not film.get('title') and film.get('title_ru'):
             film['title'] = film['title_ru']
+        try:
+            year = int(film.get('year', 0))
+        except ValueError:
+            return {'year': 'Год должен быть числом'}, 400
+        current_year = 2024
+        if not (1895 <= year <= current_year):
+            return {'year': f'Год должен быть от 1895 до {current_year}'}, 400
+
+        films[id] = film  
         return films[id]
     else:
         return {"error": "Film not found"}, 404
@@ -118,10 +130,24 @@ def put_film(id):
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_films():
     film = request.get_json() 
-    if film['description'] == '':
-        return {'description':'Заполните описание'}, 400 
+    if not film.get('description') or len(film['description']) > 2000:
+        return {'description': 'Описание обязательно и должно содержать не более 2000 символов'}, 400
+    if not film.get('title') and not film.get('title_ru'):
+        return {'title': 'Укажите хотя бы одно название (оригинальное или русское)'}, 400
+    if not film.get('title_ru'):
+        return {'title_ru': 'Русское название обязательно'}, 400
+    
     if not film.get('title') and film.get('title_ru'):
         film['title'] = film['title_ru']
+    
+    try:
+        year = int(film.get('year', 0))
+    except ValueError:
+        return {'year': 'Год должен быть числом'}, 400
+    current_year = 2024
+    if not (1895 <= year <= current_year):
+        return {'year': f'Год должен быть от 1895 до {current_year}'}, 400
+        
     films.append(film)  #добавляем фильм в конец списка
     film = len(films) - 1  
     return {"id": film}
