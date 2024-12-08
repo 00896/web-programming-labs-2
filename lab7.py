@@ -100,7 +100,9 @@ def del_film(id):
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
 def put_film(id):
     if 0 <= id < len(films):
-        film = request.get_json() 
+        film = request.get_json()
+        if film['description'] == '':
+            return {'description':'Заполните описание'}, 400 
         films[id] = film  
         return films[id]
     else:
@@ -108,12 +110,14 @@ def put_film(id):
     
 
 #добавление нового фильма
-#new_film = {"title":"t", "title_ru": "tvft", "description":"dflkmtrlh", "year": 3021}
+#film = {"title":"t", "title_ru": "tvft", "description":"dflkmtrlh", "year": 3021}
 #headers = {"Content-Type":"application/json"}
-#fetch('/lab7/rest-api/films/', {method:'POST', headers:headers, body: JSON.stringify(new_film)}) 
+#fetch('/lab7/rest-api/films/', {method:'POST', headers:headers, body: JSON.stringify(film)}) 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_films():
-    new_film = request.get_json() 
-    films.append(new_film)  #добавляем фильм в конец списка
-    new_index = len(films) - 1  
-    return {"id": new_index}
+    film = request.get_json() 
+    if film['description'] == '':
+        return {'description':'Заполните описание'}, 400 
+    films.append(film)  #добавляем фильм в конец списка
+    film = len(films) - 1  
+    return {"id": film}
