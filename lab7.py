@@ -91,3 +91,16 @@ def del_film(id):
         return '', 204 # ответ с пустым телом
     else:
         return {"error": "Film not found"}, 404
+    
+
+#film = {"title":"t", "title_ru": "tvft", "description":"dflkmtrlh", "year": 3021}
+#headers = {"Content-Type":"application/json"}
+#fetch('/lab7/rest-api/films/1', {method:'PUT', headers:headers, body: JSON.stringify(film)}) 
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
+def put_film(id):
+    if 0 <= id < len(films):
+        film = request.get_json() 
+        films[id] = film  
+        return films[id]
+    else:
+        return {"error": "Film not found"}, 404
