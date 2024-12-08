@@ -70,14 +70,24 @@ films = [
 ]
 
 
-@lab7.route('/lab7/reat-api/films/', methods=['GET'])
+@lab7.route('/lab7/rest-api/films/', methods=['GET'])
 def get_films():
     return films
 
 
-@lab7.route('/lab7/reat-api/films/<int:id>', methods=['GET'])
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
     if 0 <= id < len(films):
         return films[id] 
+    else:
+        return {"error": "Film not found"}, 404
+    
+
+#fetch('/lab7/rest-api/films/1', {method:'DELETE'})
+@lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
+def del_film(id):
+    if 0 <= id < len(films):
+        del films[id]
+        return '', 204 # ответ с пустым телом
     else:
         return {"error": "Film not found"}, 404
