@@ -93,6 +93,7 @@ def del_film(id):
         return {"error": "Film not found"}, 404
     
 
+#редактирование существующего фильма
 #film = {"title":"t", "title_ru": "tvft", "description":"dflkmtrlh", "year": 3021}
 #headers = {"Content-Type":"application/json"}
 #fetch('/lab7/rest-api/films/1', {method:'PUT', headers:headers, body: JSON.stringify(film)}) 
@@ -104,3 +105,15 @@ def put_film(id):
         return films[id]
     else:
         return {"error": "Film not found"}, 404
+    
+
+#добавление нового фильма
+#new_film = {"title":"t", "title_ru": "tvft", "description":"dflkmtrlh", "year": 3021}
+#headers = {"Content-Type":"application/json"}
+#fetch('/lab7/rest-api/films/', {method:'POST', headers:headers, body: JSON.stringify(new_film)}) 
+@lab7.route('/lab7/rest-api/films/', methods=['POST'])
+def add_films():
+    new_film = request.get_json() 
+    films.append(new_film)  #добавляем фильм в конец списка
+    new_index = len(films) - 1  
+    return {"id": new_index}
