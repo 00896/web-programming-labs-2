@@ -104,6 +104,8 @@ def put_film(id):
         if film['description'] == '':
             return {'description':'Заполните описание'}, 400 
         films[id] = film  
+        if not film.get('title') and film.get('title_ru'):
+            film['title'] = film['title_ru']
         return films[id]
     else:
         return {"error": "Film not found"}, 404
@@ -118,6 +120,8 @@ def add_films():
     film = request.get_json() 
     if film['description'] == '':
         return {'description':'Заполните описание'}, 400 
+    if not film.get('title') and film.get('title_ru'):
+        film['title'] = film['title_ru']
     films.append(film)  #добавляем фильм в конец списка
     film = len(films) - 1  
     return {"id": film}

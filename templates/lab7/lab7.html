@@ -13,12 +13,12 @@
         .modal {
             display: none;
             z-index: 100;
-            box-shadow: 3px 3px 3px #798848;
-            background-color: #e9edc9;
+            box-shadow: 7px 7px 3px #798848;
+            background-color: #e6e1c7;
             width: 450px;
             left: 50%;
-            top: 120px;
-            margin-left: -180px;
+            top: 180px;
+            margin-left: -200px;
             position: absolute;
             padding: 20px;
         }
@@ -26,6 +26,30 @@
             font-style: italic;
             color: #ffa07a;
         }
+
+        th {
+            padding: 10px;
+        }
+        
+        td {
+            padding: 5px;
+        }
+        
+        button {
+            display: inline-block;
+            padding: 3px 7px;
+            background-color: #e9edc9;
+            color:#798848;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px; 
+            border: none;
+            transition: 0.3s ease; 
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
     </style>
     <h1>Список фильмов</h1>
 
@@ -37,7 +61,7 @@
                 <th>Действие</th>
             </tr>
         </thead>
-            <tbody id="film-list"></tbody>  
+        <tbody id="film-list"colspan="2"></tbody>  
     </table>
 
     <script>
@@ -72,7 +96,7 @@
             <div id="description-error" class="error-message"></div>
         </label><br>
 
-        <button onclick="sendFilm()">OK</button>
+        <button onclick="sendFilm()" id="send">OK</button>
         <button onclick="cancel()">Отмена</button>
     </div>
 {% endblock %}
