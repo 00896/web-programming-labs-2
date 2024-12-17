@@ -76,10 +76,10 @@
         <a href="/lab8/register">Регистрация</a>
     </div>
     <div class="user">
-        Профиль: {{ login if login else "Anonymous" }}
+        Профиль: {{ current_user.login if current_user.is_authenticated else "Anonymous" }}
     </div>
 
-    {% if login %}
+    {% if current_user.is_authenticated %}
         <a href="/lab8/logout" class="logout">Выйти</a>
     {% endif %}
     <p><a href="/lab8/users" class="list">Список пользователей</a></p>
