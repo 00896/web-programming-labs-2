@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+<style>
+    .article {
+        border: 1px solid #798848;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .article h2 {
+        margin: 0 0 10px 0;
+    }
+    button {
+        background-color: #798848;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+<h1>Публичные статьи</h1>
+
+<form method="GET" action="{{ url_for('lab8.public_articles') }}">
+    <input type="text" name="q" placeholder="Поиск по статьям" value="{{ query }}">
+    <button type="submit">Найти</button>
+</form>
+<br>
+{% for article in articles %}
+    <div class="article">
+        <h2>{{ article.title }}</h2>
+        <blockquote>{{ article.article_text }}</blockquote>
+        <p><i>ID автора:</i> {{ article.login_id }}</p>
+    </div>
+{% else %}
+    <p>Не существует.</p>
+{% endfor %}
+{% endblock %}

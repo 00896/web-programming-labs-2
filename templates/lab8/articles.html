@@ -1,19 +1,60 @@
 {% extends "base.html" %}
 
-{#номер лабораторной работы: #}
+{# номер лабораторной работы: #}
 {% block lab %}Лабораторная работа 8{% endblock %}
 
-{#основной контент: #}
+{# основной контент: #}
 {% block main %}
-<h1>Мои статьи</h1>
-{% for article in articles %}
-    <div>
-        <h2>{{ article.title }}</h2>
-        <p>{{ article.article_text}}</p>
-        <a href="{{ url_for('lab8.edit_article', article_id=article.id) }}">Редактировать</a>
-        <form action="{{ url_for('lab8.delete_article', article_id=article.id) }}" method="POST" style="display:inline;">
-            <button type="submit">Удалить</button>
-        </form>
-    </div>
-{% endfor %}
+    <style>
+        .article {
+            border: 1px solid #798848;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .article h2 {
+            margin: 0 0 10px 0;
+        }
+        .button {
+            background-color: #798848;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .favorite-button {
+            background-color: #ffa07a;
+        }
+    </style>
+
+    <h1>Мои статьи</h1>
+    <h3><a href="{{ url_for('lab8.public_articles') }}">Перейти к публичным статьям</a></h3>
+
+    {% if not articles %}
+        <h2>У вас пока нет статей.</h2>
+    {% else %}
+        <div>
+            {% for article in articles %}
+                <div class="article" style="background-color: {% if article.is_favorite %}#e9edc9{% else %}#f9f9f9{% endif %};">
+                    <h2>{{ article.title }}</h2>
+                    <blockquote>{{ article.article_text }}</blockquote>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="{{ url_for('lab8.edit_article', article_id=article.id) }}" style="background-color: #798848; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">Редактировать</a>
+                        <form action="{{ url_for('lab8.delete_article', article_id=article.id) }}" method="POST" style="margin: 0;">
+                            <button type="submit" class="button">Удалить</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('lab8.toggle_favorite', article_id=article.id) }}" style="margin: 0;">
+                            <button type="submit" class="button {% if article.is_favorite %}favorite-button{% endif %}">
+                                {% if article.is_favorite %}Убрать из любимых{% else %}В любимые{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

@@ -144,5 +144,38 @@ def delete_article(article_id):
 @lab8.route('/lab8/articles/')
 @login_required
 def article_list():
-    user_articles = articles.query.filter_by(login_id=current_user.id).all()
+    user_articles = articles.query.filter_by(login_id=current_user.id).order_by(articles.is_favorite.desc()).all()
     return render_template('lab8/articles.html', articles=user_articles)
+
+
+# Публичные статьи - доступны всем пользователям
+@lab8.route('/lab8/public_articles/')
+def public_articles():
+    query = request.args.get('q', '').strip()
+    if query:
+        public_articles = articles.query.filter(
+            articles.is_public == True,  # Публичные статьи
+            articles.title.ilike(f'%{query}%') | articles.article_text.ilike(f'%{query}%')
+        ).all()
+    else:
+        public_articles = articles.query.filter_by(is_public=True).all()
+    return render_template('lab8/public_articles.html', articles=public_articles, query=query)
+
+
+# Переключение любимой статьи
+@lab8.route('/lab8/toggle_favorite/<int:article_id>/', methods=['POST'])
+@login_required
+def toggle_favorite(article_id):
+    # Получаем статью по ID или возвращаем 404
+    article = articles.query.get_or_404(article_id)
+
+    # Проверяем, что текущий пользователь — автор статьи
+    if article.login_id != current_user.id:
+        return redirect(url_for('lab8.article_list'))
+
+    # Переключаем статус "любимая" статьи
+    article.is_favorite = not article.is_favorite
+    db.session.commit()
+
+    # Перенаправляем обратно на список статей
+    return redirect(url_for('lab8.article_list'))
