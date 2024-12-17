@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+<h1>Редактирование статьи</h1>
+<form method="POST">
+    <label for="title">Заголовок</label>
+    <input type="text" id="title" name="title" value="{{ article.title }}" required><br>
+    <div>Текст статьи:</div>
+    <label for="article_text"></label>
+    <textarea id="article_text" name="article_text" required>{{ article.article_text }}</textarea><br>
+
+    <label for="is_favorite">В избранное</label>
+    <input type="checkbox" id="is_favorite" name="is_favorite" {% if article.is_favorite %} checked {% endif %}><br>
+
+    <label for="is_public">Публичная</label>
+    <input type="checkbox" id="is_public" name="is_public" {% if article.is_public %} checked {% endif %}><br>
+
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}
