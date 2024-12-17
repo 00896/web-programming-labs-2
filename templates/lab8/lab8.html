@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {#номер лабораторной работы: #}
-{% block lab %}Лабораторная работа 5{% endblock %}
+{% block lab %}Лабораторная работа 8{% endblock %}
 
 {#основной контент: #}
 {% block main %}
@@ -70,18 +70,18 @@
     </style>
     <h1>База знаний</h1>
     <div class="menu">
-        <a href="/lab5/articles">Список статей</a>
-        <a href="/lab5/create">Создать статью</a>
-        <a href="/lab5/login">Войти</a>
-        <a href="/lab5/register">Регистрация</a>
+        <a href="/lab8/articles">Список статей</a>
+        <a href="/lab8/create">Создать статью</a>
+        <a href="/lab8/login">Войти</a>
+        <a href="/lab8/register">Регистрация</a>
     </div>
     <div class="user">
         Профиль: {{ login if login else "Anonymous" }}
     </div>
 
     {% if login %}
-        <a href="/lab5/logout" class="logout">Выйти</a>
+        <a href="/lab8/logout" class="logout">Выйти</a>
     {% endif %}
-    <p><a href="/lab5/users" class="list">Список пользователей</a></p>
+    <p><a href="/lab8/users" class="list">Список пользователей</a></p>
     <br><br><br>
 {% endblock %}

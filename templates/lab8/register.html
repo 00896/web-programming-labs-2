@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{#номер лабораторной работы: #}
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{#основной контент: #}
+{% block main %}
+    <style>
+        button {
+            display: inline-block;
+            padding: 10px 10px;
+            background-color: #e9edc9;
+            color:#798848;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px; /* Скругленные углы */
+            border: none;
+            transition: 0.3s ease; /* Эффект при наведении */
+            margin: 10px; /* Отступы */
+            cursor: pointer;
+        }
+    </style>
+    <h1>Регистрация</h1>
+    <form action="/lab8/register" method="post">
+        <div>
+            <label> 
+                Логин: <input type="text" name="login">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                Пароль: <input type="password" name="password">
+            </label>
+        </div>
+        <div style="color: red; font-style: italic;"><br>{{ error }}</div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}
